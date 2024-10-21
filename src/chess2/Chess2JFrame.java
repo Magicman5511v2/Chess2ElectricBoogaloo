@@ -33,7 +33,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
                 buttons[i][j] = button;
                 button.setName(i + "" + (j));
                 button.addActionListener((ActionEvent e)
-                        -> buttonClicked(e));
+                        -> chessButtonClicked(e));
 
                 GamePanel.add(button);
 
@@ -42,7 +42,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
         this.DrawBoard();
     }
 
-    private void buttonClicked(ActionEvent e) {
+    private void chessButtonClicked(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         String name = button.getName();
         int x = name.charAt(0) - 48;
