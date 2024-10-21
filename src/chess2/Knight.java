@@ -11,7 +11,7 @@ public class Knight extends Piece {
     public Knight(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = 3;
-        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-knight.png";
+        imagePath = (isWhite ? "white" : "black") + "-knight.png";
     }
 
     @Override

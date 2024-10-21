@@ -12,7 +12,7 @@ public class Pawn extends Piece {
     public Pawn(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = 1;
-        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-pawn.png";
+        imagePath = (isWhite ? "white" : "black") + "-pawn.png";
     }
 
     @Override

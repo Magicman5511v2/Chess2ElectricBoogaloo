@@ -11,7 +11,7 @@ public class King extends Piece {
     public King(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = Integer.MAX_VALUE;
-        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-king.png";
+        imagePath = (isWhite ? "white" : "black") + "-king.png";
     }
 
     @Override

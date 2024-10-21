@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package chess2;
 
 import java.awt.Color;
@@ -12,7 +8,7 @@ import javax.swing.JButton;
 
 /**
  *
- * @author Magicman5511
+ * @author Christopher Payne
  */
 public class Chess2JFrame extends javax.swing.JFrame {
 
@@ -58,8 +54,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chess 2 Electric Boogaloo");
-        setMinimumSize(new java.awt.Dimension(720, 480));
-        setPreferredSize(new java.awt.Dimension(720, 480));
+        setMinimumSize(new java.awt.Dimension(498, 588));
+        setPreferredSize(new java.awt.Dimension(498, 588));
+        setResizable(false);
 
         NewButton.setText("New Game");
         NewButton.addActionListener(new java.awt.event.ActionListener() {
@@ -90,11 +87,11 @@ public class Chess2JFrame extends javax.swing.JFrame {
             MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(NewButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(NewButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(SaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LoadButton, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                .addComponent(LoadButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TurnTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8))
@@ -112,6 +109,12 @@ public class Chess2JFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        GamePanel.setMaximumSize(new java.awt.Dimension(480, 480));
+        GamePanel.setMinimumSize(new java.awt.Dimension(480, 480));
+        GamePanel.setName("[512, 512]"); // NOI18N
+        GamePanel.setPreferredSize(new java.awt.Dimension(480, 480));
+        GamePanel.setRequestFocusEnabled(false);
+        GamePanel.setVerifyInputWhenFocusTarget(false);
         GamePanel.setLayout(new java.awt.GridLayout(8, 8));
 
         MessageTextPane.setText("Welcome to Chess human vs cpu(not good at all)!");
@@ -120,13 +123,21 @@ public class Chess2JFrame extends javax.swing.JFrame {
         MessagePanel.setLayout(MessagePanelLayout);
         MessagePanelLayout.setHorizontalGroup(
             MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MessageTextPane, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MessagePanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(MessageTextPane, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         MessagePanelLayout.setVerticalGroup(
             MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MessagePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(MessageTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 32, Short.MAX_VALUE)
+            .addGroup(MessagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MessagePanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(MessageTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,18 +145,18 @@ public class Chess2JFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(MenuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(MessagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addComponent(MessagePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(GamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(GamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addComponent(GamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MessagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -168,17 +179,18 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadButtonActionPerformed
 
     private void DrawBoard() {
-
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Position pos = new Position(i, j);
                 Piece piece = this.board.getPieceAt(pos);
                 JButton button = buttons[i][j];
                 if (piece != null) {
-                    Image image = new ImageIcon(piece.imagePath).getImage();
+                    Image image = new ImageIcon("resources/icons/" + piece.imagePath).getImage();
                     Image newimg = image.getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH);
                     ImageIcon imageIcon = new ImageIcon(newimg);
                     button.setIcon(imageIcon);
+                }else{
+                    button.setIcon(null);
                 }
 
                 if ((i + j) % 2 == 0) {
@@ -190,8 +202,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
             }
         }
     }
+
     private void highlightMoves(Piece piece) {
-           //TODO
+        //TODO
     }
 
     /**
