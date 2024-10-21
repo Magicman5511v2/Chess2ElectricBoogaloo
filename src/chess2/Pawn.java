@@ -17,23 +17,8 @@ public class Pawn extends Piece {
 
     @Override
     public Boolean isValidMove(Board board, Position target) {
-        try {
-            if (!board.getIsClone()) {
-                //chatGPT created this deep copy for me ↓↓↓↓
-                byte[] boardBytes = SerializationUtils.serialize(board);
-                Board clone = (Board) SerializationUtils.deserialize(boardBytes);
-                //chatGPT created this deep copy for me ↑↑↑
-                clone.setIsClone();
-                boolean check = clone.checkForCheck();
-                if (check) {
-                    return clone.checkForCheck();
-                }
-            }
+        // TODO implement a check for check
 
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.print(e.getMessage());
-
-        }
         // Check to make sure the target is on the board
         if (target.getR() < 0 || target.getR() > 7 || target.getC() < 0 || target.getC() > 7) {
             return false;

@@ -37,24 +37,7 @@ public abstract class Piece implements Serializable {
     public abstract HashSet<Move> getMoves(Board board);
 
     public Boolean isValidMove(Board board, Position target) {
-
-        try {
-            if (!board.getIsClone()) {
-                //chatGPT created this deep copy for me ↓↓↓↓
-                byte[] boardBytes = SerializationUtils.serialize(board);
-                Board clone = (Board) SerializationUtils.deserialize(boardBytes);
-                //chatGPT created this deep copy for me ↑↑↑
-                clone.setIsClone();
-                boolean check = clone.checkForCheck();
-                if (check) {
-                    return clone.checkForCheck();
-                }
-            }
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.print(e.getMessage());
-
-        }
+        // TODO implement a check for check
 
         // Check to make sure the target is on the board
         if (target.getR() < 0 || target.getR() > 7 || target.getC() < 0 || target.getC() > 7) {
