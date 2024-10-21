@@ -20,56 +20,64 @@ public class Queen extends Piece {
 
         // Rook's moves
         for (int i = this.pos.getR() + 1; i < 8; i++) {
-            if (!isValidMove(board, new Position(i, this.pos.getC()))) {
+            Move move = new Move(this, new Position(i, this.pos.getC()));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(i, this.pos.getC())));
+            moves.add(move);
         }
         for (int i = this.pos.getR() - 1; i >= 0; i--) {
-            if (!isValidMove(board, new Position(i, this.pos.getC()))) {
+            Move move = new Move(this, new Position(i, this.pos.getC()));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(i, this.pos.getC())));
+            moves.add(move);
         }
 
         // Check all squares in the horizontal direction (left and right)
         for (int j = this.pos.getC() + 1; j < 8; j++) {
-            if (!isValidMove(board, new Position(this.pos.getR(), j))) {
+            Move move = new Move(this, new Position(this.pos.getR(), j));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR(), j)));
+            moves.add(move);
         }
         for (int j = this.pos.getC() - 1; j >= 0; j--) {
-            if (!isValidMove(board, new Position(this.pos.getR(), j))) {
+            Move move = new Move(this, new Position(this.pos.getR(), j));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR(), j)));
+            moves.add(move);
         }
 
         // Bishop's moves
         for (int i = 1; this.pos.getR() + i < 8 && this.pos.getC() + i < 8; i++) {
-            if (!isValidMove(board, new Position(this.pos.getR() + i, this.pos.getC() + i))) {
+            Move move = new Move(this, new Position(this.pos.getR() + i, this.pos.getC() + i));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR() + i, this.pos.getC() + i)));
+            moves.add(move);
         }
         for (int i = 1; this.pos.getR() + i < 8 && this.pos.getC() - i >= 0; i++) {
-            if (!isValidMove(board, new Position(this.pos.getR() + i, this.pos.getC() - i))) {
+            Move move = new Move(this, new Position(this.pos.getR() + i, this.pos.getC() - i));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR() + i, this.pos.getC() - i)));
+            moves.add(move);
         }
         for (int i = 1; this.pos.getR() - i >= 0 && this.pos.getC() + i < 8; i++) {
-            if (!isValidMove(board, new Position(this.pos.getR() - i, this.pos.getC() + i))) {
+            Move move = new Move(this, new Position(this.pos.getR() - i, this.pos.getC() + i));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR() - i, this.pos.getC() + i)));
+            moves.add(move);
         }
         for (int i = 1; this.pos.getR() - i >= 0 && this.pos.getC() - i >= 0; i++) {
-            if (!isValidMove(board, new Position(this.pos.getR() - i, this.pos.getC() - i))) {
+            Move move = new Move(this, new Position(this.pos.getR() - i, this.pos.getC() - i));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR() - i, this.pos.getC() - i)));
+            moves.add(move);
         }
 
         return moves;

@@ -24,8 +24,8 @@ public class King extends Piece {
             int newX = this.pos.getR() + dx[i];
             int newY = this.pos.getC() + dy[i];
             Position newPosition = new Position(newX, newY);
-
-            if (isValidMove(board, newPosition)) {
+            Move move = new Move(this, newPosition);
+            if (move.isValid(board)) {
                 moves.add(new Move(this, newPosition));
             }
         }

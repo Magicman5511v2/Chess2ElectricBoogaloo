@@ -23,32 +23,37 @@ public class Rook extends Piece {
     @Override
     public HashSet<Move> getMoves(Board board) {
         HashSet<Move> moves = new HashSet<>();
-
+        // Rook's moves
+        // Check all squares in the vertical direction (up and down)
         for (int i = this.pos.getR() + 1; i < 8; i++) {
-            if (!isValidMove(board, new Position(i, this.pos.getC()))) {
+            Move move = new Move(this, new Position(i, this.pos.getC()));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(i, this.pos.getC())));
+            moves.add(move);
         }
         for (int i = this.pos.getR() - 1; i >= 0; i--) {
-            if (!isValidMove(board, new Position(i, this.pos.getC()))) {
+            Move move = new Move(this, new Position(i, this.pos.getC()));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(i, this.pos.getC())));
+            moves.add(move);
         }
 
         // Check all squares in the horizontal direction (left and right)
         for (int j = this.pos.getC() + 1; j < 8; j++) {
-            if (!isValidMove(board, new Position(this.pos.getR(), j))) {
+            Move move = new Move(this, new Position(this.pos.getR(), j));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR(), j)));
+            moves.add(move);
         }
         for (int j = this.pos.getC() - 1; j >= 0; j--) {
-            if (!isValidMove(board, new Position(this.pos.getR(), j))) {
+            Move move = new Move(this, new Position(this.pos.getR(), j));
+            if (!move.isValid(board)) {
                 break;
             }
-            moves.add(new Move(this, new Position(this.pos.getR(), j)));
+            moves.add(move);
         }
 
         return moves;

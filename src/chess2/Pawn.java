@@ -1,6 +1,5 @@
 package chess2;
 
-import java.io.IOException;
 import java.util.HashSet;
 
 /**
@@ -13,40 +12,6 @@ public class Pawn extends Piece {
         super(isWhite, pos);
         this.value = 1;
         imagePath = (isWhite ? "white" : "black") + "-pawn.png";
-    }
-
-    @Override
-    public Boolean isValidMove(Board board, Position target) {
-        // TODO implement a check for check
-
-        // Check to make sure the target is on the board
-        if (target.getR() < 0 || target.getR() > 7 || target.getC() < 0 || target.getC() > 7) {
-            return false;
-        }
-
-        Piece piece = board.getPieceAt(target);
-        if (piece == null) { // empty
-            if (target.getC() == pos.getC()) { //forward
-                if (target.getR() + 1 == pos.getR() || target.getR() - 1 == pos.getR()) {//1 space
-                    return true;
-                } else if (hasMoved == false) {
-                    return true;
-                }
-
-            } else {
-                return false; //cant move diag
-            }
-        } else {
-            if (piece.isWhite == this.isWhite) {//friendly
-                return false;
-            }
-            if (target.getC() == pos.getC()) { //forward
-                return false;
-            } else {
-                return true;//diag capture
-            }
-        }
-        return false;
     }
 
     @Override
@@ -63,7 +28,8 @@ public class Pawn extends Piece {
             int r = this.pos.getR() + dx[i];
             int c = this.pos.getC() + dy[i];
             Position newPosition = new Position(r, c);
-            if (isValidMove(board, newPosition)) {
+            Move move = new Move(this, newPosition);
+            if (move.isValid(board)) {
                 moves.add(new Move(this, newPosition));
             }
         }

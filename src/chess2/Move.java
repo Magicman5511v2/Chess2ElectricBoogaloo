@@ -21,6 +21,29 @@ public class Move {
         this.pos = pos;
     }
 
+    public boolean isValid(Board board) {
+        // TODO implement a check for check
+
+        // Check to make sure the target is on the board
+        if (pos.getR() < 0 || pos.getR() > 7 || pos.getC() < 0 || pos.getC() > 7) {
+            return false;
+        }
+
+        Piece targetPiece = board.getPieceAt(pos);
+
+        if (piece instanceof Pawn) {
+            return true;
+        }
+        if (targetPiece == null) {
+            return true;
+        }
+        if(piece.isWhite == targetPiece.isWhite){
+            return false;
+        }
+        return true;//fix this
+
+    }
+
     /**
      *
      * @return Position pos

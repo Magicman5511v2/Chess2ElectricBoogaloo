@@ -233,7 +233,8 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_NewButtonActionPerformed
 
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
-
+        board = fileHandler.load("test");
+        this.DrawBoard();
     }//GEN-LAST:event_LoadButtonActionPerformed
 
     private void DrawBoard() {

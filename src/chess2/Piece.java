@@ -36,23 +36,6 @@ public abstract class Piece implements Serializable {
      */
     public abstract HashSet<Move> getMoves(Board board);
 
-    public Boolean isValidMove(Board board, Position target) {
-        // TODO implement a check for check
-
-        // Check to make sure the target is on the board
-        if (target.getR() < 0 || target.getR() > 7 || target.getC() < 0 || target.getC() > 7) {
-            return false;
-        }
-
-        Piece piece = board.getPieceAt(target);// does not acount for Check Mate, but it needs to go here
-        // if the target is empty it valid
-        if (piece == null) {
-            return true;
-        }
-        return piece.isWhite != this.isWhite;
-
-    }
-
     public void makeMove(Position pos) {
         this.hasMoved = true;
         this.pos = pos;
