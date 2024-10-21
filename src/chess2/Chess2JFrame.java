@@ -3,7 +3,6 @@ package chess2;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,14 +55,14 @@ public class Chess2JFrame extends javax.swing.JFrame {
         if (selectedPiece == null && board.getPieceAt(pos) != null) {
             if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
                 selectedPiece = board.getPieceAt(pos);
-                System.out.println(selectedPiece);
+                highlightMoves(selectedPiece.getMoves(board));
                 return;
             }
         }
         if (selectedPiece != null && board.getPieceAt(pos) != null) {
             if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
                 selectedPiece = board.getPieceAt(pos);
-                System.out.println(selectedPiece);
+                highlightMoves(selectedPiece.getMoves(board));
                 return;
             } else {
                 Move move = new Move(selectedPiece, pos);
@@ -71,7 +70,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
                 HashSet<Move> moves = selectedPiece.getMoves(board);
                 if (moves.contains(move)) {
                     board.makeMove(move);
+                    selectedPiece = null;
                     this.DrawBoard();
+
                 }
                 return;
             }
@@ -83,7 +84,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
             HashSet<Move> moves = selectedPiece.getMoves(board);
             if (moves.contains(move)) {
                 board.makeMove(move);
+                selectedPiece = null;
                 this.DrawBoard();
+
             }
             return;
         }
@@ -234,6 +237,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_LoadButtonActionPerformed
 
     private void DrawBoard() {
+        TurnTextPane.setText(board.getWhiteTurn() ? "Whites Turn" : "Blacks Turn");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Position pos = new Position(i, j);
@@ -247,7 +251,6 @@ public class Chess2JFrame extends javax.swing.JFrame {
                 } else {
                     button.setIcon(null);
                 }
-
                 if ((i + j) % 2 == 0) {
                     button.setBackground(Color.WHITE);
                 } else {
@@ -256,14 +259,27 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
             }
         }
-    }
-
-    private void highlightMoves(Piece piece) {
-        //TODO
-        if (piece != null) {
-
+        if (selectedPiece != null) {
+            setBackground(selectedPiece.getPos(), Color.GREEN);
         }
 
+    }
+
+    private void highlightMoves(HashSet<Move> Moves) {
+        DrawBoard();
+        for (Move move : Moves) {
+            if (board.getPieceAt(move.getPos()) != null) {
+                setBackground(move.getPos(), Color.RED);
+            } else {
+                setBackground(move.getPos(), Color.YELLOW);
+            }
+
+        }
+    }
+
+    private void setBackground(Position pos, Color c) {
+        JButton button = buttons[pos.getR()][pos.getC()];
+        button.setBackground(c);
     }
 
     /**
