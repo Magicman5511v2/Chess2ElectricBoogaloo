@@ -2,6 +2,8 @@ package chess2;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +15,8 @@ import javax.swing.JButton;
 public class Chess2JFrame extends javax.swing.JFrame {
 
     static Board board = new Board();
+    private Piece selectedPiece;
+
     private static final FileHandler fileHandler = new FileHandler();
     private JButton[][] buttons;
 
@@ -27,11 +31,62 @@ public class Chess2JFrame extends javax.swing.JFrame {
             for (int j = 0; j < 8; j++) {
                 JButton button = new JButton();
                 buttons[i][j] = button;
+                button.setName(i + "" + (j));
+                button.addActionListener((ActionEvent e)
+                        -> buttonClicked(e));
+
                 GamePanel.add(button);
 
             }
         }
         this.DrawBoard();
+    }
+
+    private void buttonClicked(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+        String name = button.getName();
+        int x = name.charAt(0) - 48;
+        int y = name.charAt(1) - 48;
+        Position pos = new Position(x, y);
+        System.out.println(pos);
+
+        if (selectedPiece == null && board.getPieceAt(pos) == null) {
+            return;
+        }
+        if (selectedPiece == null && board.getPieceAt(pos) != null) {
+            if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
+                selectedPiece = board.getPieceAt(pos);
+                System.out.println(selectedPiece);
+                return;
+            }
+        }
+        if (selectedPiece != null && board.getPieceAt(pos) != null) {
+            if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
+                selectedPiece = board.getPieceAt(pos);
+                System.out.println(selectedPiece);
+                return;
+            } else {
+                Move move = new Move(selectedPiece, pos);
+                System.out.println(move);
+                HashSet<Move> moves = selectedPiece.getMoves(board);
+                if (moves.contains(move)) {
+                    board.makeMove(move);
+                    this.DrawBoard();
+                }
+                return;
+            }
+        }
+
+        if (selectedPiece != null && board.getPieceAt(pos) == null) {
+            Move move = new Move(selectedPiece, pos);
+            System.out.println(move);
+            HashSet<Move> moves = selectedPiece.getMoves(board);
+            if (moves.contains(move)) {
+                board.makeMove(move);
+                this.DrawBoard();
+            }
+            return;
+        }
     }
 
     /**
@@ -189,7 +244,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
                     Image newimg = image.getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH);
                     ImageIcon imageIcon = new ImageIcon(newimg);
                     button.setIcon(imageIcon);
-                }else{
+                } else {
                     button.setIcon(null);
                 }
 
@@ -205,6 +260,10 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
     private void highlightMoves(Piece piece) {
         //TODO
+        if (piece != null) {
+
+        }
+
     }
 
     /**
