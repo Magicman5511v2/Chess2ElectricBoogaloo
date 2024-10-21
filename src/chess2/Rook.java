@@ -17,6 +17,7 @@ public class Rook extends Piece {
     public Rook(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = 5;
+        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-rook.png";
     }
 
     @Override

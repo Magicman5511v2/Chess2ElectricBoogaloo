@@ -48,7 +48,8 @@ public class Move {
     }
 
     /**
-     *are 2 objects equal
+     * are 2 objects equal
+     *
      * @param o
      * @return true if they are equal
      */

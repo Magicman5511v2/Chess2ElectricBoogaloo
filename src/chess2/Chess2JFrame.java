@@ -4,16 +4,38 @@
  */
 package chess2;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.util.HashSet;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 /**
  *
  * @author Magicman5511
  */
 public class Chess2JFrame extends javax.swing.JFrame {
 
-    private static Game game;
+    static Board board = new Board();
+    private static final FileHandler fileHandler = new FileHandler();
+    private JButton[][] buttons;
 
     public Chess2JFrame() {
         initComponents();
+        CreateGridButtons();
+    }
+
+    private void CreateGridButtons() {
+        buttons = new JButton[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                JButton button = new JButton();
+                buttons[i][j] = button;
+                GamePanel.add(button);
+
+            }
+        }
+        this.DrawBoard();
     }
 
     /**
@@ -87,19 +109,10 @@ public class Chess2JFrame extends javax.swing.JFrame {
                         .addComponent(SaveButton)
                         .addComponent(LoadButton))
                     .addComponent(TurnTextPane))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout GamePanelLayout = new javax.swing.GroupLayout(GamePanel);
-        GamePanel.setLayout(GamePanelLayout);
-        GamePanelLayout.setHorizontalGroup(
-            GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 714, Short.MAX_VALUE)
-        );
-        GamePanelLayout.setVerticalGroup(
-            GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
-        );
+        GamePanel.setLayout(new java.awt.GridLayout(8, 8));
 
         MessageTextPane.setText("Welcome to Chess human vs cpu(not good at all)!");
 
@@ -130,9 +143,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MenuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(GamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(GamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MessagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -141,17 +154,45 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        // TODO add your handling code here:
+        fileHandler.save(board, "test");
+        this.DrawBoard();
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void NewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewButtonActionPerformed
-        this.game = new Game();
-        this.game.startGame();
+        board = new Board();
+        this.DrawBoard();
     }//GEN-LAST:event_NewButtonActionPerformed
 
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
 
     }//GEN-LAST:event_LoadButtonActionPerformed
+
+    private void DrawBoard() {
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Position pos = new Position(i, j);
+                Piece piece = this.board.getPieceAt(pos);
+                JButton button = buttons[i][j];
+                if (piece != null) {
+                    Image image = new ImageIcon(piece.imagePath).getImage();
+                    Image newimg = image.getScaledInstance(32, 32, java.awt.Image.SCALE_SMOOTH);
+                    ImageIcon imageIcon = new ImageIcon(newimg);
+                    button.setIcon(imageIcon);
+                }
+
+                if ((i + j) % 2 == 0) {
+                    button.setBackground(Color.WHITE);
+                } else {
+                    button.setBackground(Color.BLACK);
+                }
+
+            }
+        }
+    }
+    private void highlightMoves(Piece piece) {
+           //TODO
+    }
 
     /**
      * @param args the command line arguments
@@ -169,16 +210,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Chess2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Chess2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Chess2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Chess2JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

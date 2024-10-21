@@ -61,35 +61,6 @@ public class Board implements Serializable {
     }
 
     /**
-     * this will display a grid that represents the board with pieces
-     */
-    public void displayBoard() {
-        System.out.print("\n\n");
-
-        System.out.println(" ||a|b|c|d|e|f|g|h|");
-        System.out.println(" ||---------------|");
-        Piece piece;
-        for (int r = 0; r < 8; r++) {
-            System.out.print((r + 1) + "||");
-            for (int c = 0; c < 8; c++) {
-
-                piece = this.board.get(r).get(c);
-                if (piece != null) {
-                    System.out.print(this.board.get(r).get(c) + "|");
-                } else {
-                    if (((r + c) % 2) == 0) {
-                        System.out.print(" |");
-                    } else {
-                        System.out.print(" |");
-                    }
-                }
-            }
-            System.out.print('\n');
-        }
-        System.out.print("\n\n");
-    }
-
-    /**
      *
      * @param p Position to find on board
      * @return the Piece at Position p or null if empty
@@ -123,23 +94,6 @@ public class Board implements Serializable {
             }
         }
         return validMoves;
-    }
-
-    /**
-     * this is used to display all valid moves used for debugging
-     */
-    public void printValidMoves() {
-        HashSet<Move> validMoves = findAllValidMoves();
-
-        if (validMoves.isEmpty()) {
-            System.out.println("No valid moves available.");
-            return;
-        }
-
-        System.out.println("Valid moves:");
-        for (Move move : validMoves) {
-            System.out.println(move);
-        }
     }
 
     /**

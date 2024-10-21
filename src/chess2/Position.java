@@ -13,6 +13,7 @@ public class Position implements Serializable {
 
     /**
      * just a small class to hold a position colonm and row
+     *
      * @param c colunm
      * @param r row
      */
@@ -20,7 +21,6 @@ public class Position implements Serializable {
         this.r = c;
         this.c = r;
     }
-
 
     public int getR() {
         return this.r;

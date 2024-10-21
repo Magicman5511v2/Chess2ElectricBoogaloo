@@ -11,6 +11,7 @@ public class Queen extends Piece {
     public Queen(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = 9;
+        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-queen.png";
     }
 
     @Override

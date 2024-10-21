@@ -21,17 +21,13 @@ public class FileHandler {
      *
      * @return Board if successful null if not
      */
-    public Board load() {
+    public Board load(String filename) {
         if (!this.listAllSaves()) {
             return null;
         }
-        System.out.print("Enter the filename to load the board or type 'exit' to quit: ");
-        String filename = scanner.nextLine();
-
         if ("exit".equalsIgnoreCase(filename)) {
             return null;
         }
-
         try {
             return loadBoard(filename);
         } catch (IOException | ClassNotFoundException e) {
@@ -45,26 +41,18 @@ public class FileHandler {
      * this is for the user to decide on how to save
      *
      * @param board to save
+     * @param filename
      * @return true = continue false = exit
      */
-    public boolean save(Board board) {
-        this.listAllSaves();
-        System.out.print("Enter the filename to save the board: ");
-        String filename = scanner.nextLine();
-
+    public boolean save(Board board, String filename) {
         try {
             saveBoard(filename, board);
-            System.out.println("Board saved successfully.");
         } catch (IOException e) {
             System.out.println("Error saving the board. Please try again.");
             System.out.println(e.getMessage());
-            return true;
+            return false;
         }
-
-        System.out.print("Would you like to continue? (yes to continue, anything else to exit): ");
-        String response = scanner.nextLine();
-
-        return "yes".equalsIgnoreCase(response);
+        return true;
     }
 
     private static Board loadBoard(String boardSTR) throws FileNotFoundException, IOException, ClassNotFoundException {

@@ -17,6 +17,7 @@ public class Bishop extends Piece {
     public Bishop(boolean isWhite, Position pos) {
         super(isWhite, pos);
         this.value = 3;
+        imagePath = "Icons/" + (isWhite ? "white" : "black") + "-bishop.png";
     }
 
     @Override

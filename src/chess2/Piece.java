@@ -15,6 +15,7 @@ public abstract class Piece implements Serializable {
     protected boolean isWhite;
     protected Position pos;
     protected int value = 0;
+    protected String imagePath;
 
     public Piece(boolean isWhite, Position pos) {
         this.isWhite = isWhite;
@@ -76,6 +77,10 @@ public abstract class Piece implements Serializable {
 
     public Position getPos() {
         return this.pos;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     @Override
