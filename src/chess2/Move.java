@@ -37,10 +37,7 @@ public class Move {
         if (targetPiece == null) {
             return true;
         }
-        if(piece.isWhite == targetPiece.isWhite){
-            return false;
-        }
-        return true;//fix this
+        return false;
 
     }
 
