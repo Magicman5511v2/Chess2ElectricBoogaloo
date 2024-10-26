@@ -12,9 +12,9 @@ public class Position implements Serializable {
     private final int c;
 
     /**
-     * just a small class to hold a position colonm and row
+     * just a small class to hold a position Colum and row
      *
-     * @param c colunm
+     * @param c Colum
      * @param r row
      */
     public Position(int c, int r) {

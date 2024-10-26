@@ -28,9 +28,6 @@ public class King extends Piece {
             if (move.isValid(board)) {
                 moves.add(move);
             }
-            if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                moves.add(move);
-            }
         }
 
         return moves;

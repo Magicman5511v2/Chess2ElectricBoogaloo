@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -69,9 +71,13 @@ public class Chess2JFrame extends javax.swing.JFrame {
                 System.out.println(move);
                 HashSet<Move> moves = selectedPiece.getMoves(board);
                 if (moves.contains(move)) {
-                    board.makeMove(move);
-                    selectedPiece = null;
-                    this.DrawBoard();
+                    try {
+                        board.makeMove(move);
+                        selectedPiece = null;
+                        this.DrawBoard();
+                    } catch (Exception ex) {
+                        Logger.getLogger(Chess2JFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                 }
                 return;
@@ -83,9 +89,13 @@ public class Chess2JFrame extends javax.swing.JFrame {
             System.out.println(move);
             HashSet<Move> moves = selectedPiece.getMoves(board);
             if (moves.contains(move)) {
-                board.makeMove(move);
-                selectedPiece = null;
-                this.DrawBoard();
+                try {
+                    board.makeMove(move);
+                    selectedPiece = null;
+                    this.DrawBoard();
+                } catch (Exception ex) {
+                    Logger.getLogger(Chess2JFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
             return;

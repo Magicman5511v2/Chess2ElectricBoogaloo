@@ -29,9 +29,6 @@ public class Knight extends Piece {
             if (move.isValid(board)) {
                 moves.add(new Move(this, newPosition));
             }
-            if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                moves.add(move);
-            }
         }
 
         return moves;

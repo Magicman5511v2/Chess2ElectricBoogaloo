@@ -29,7 +29,7 @@ public class Bishop extends Piece {
         for (int i = 1; this.pos.getR() + i < 8 && this.pos.getC() + i < 8; i++) {
             Move move = new Move(this, new Position(this.pos.getR() + i, this.pos.getC() + i));
             if (!move.isValid(board)) {
-                if(board.getPieceAt(move.getPos()).isWhite!=this.isWhite){
+                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
                     moves.add(move);
                 }
                 break;
@@ -39,7 +39,7 @@ public class Bishop extends Piece {
         for (int i = 1; this.pos.getR() + i < 8 && this.pos.getC() - i >= 0; i++) {
             Move move = new Move(this, new Position(this.pos.getR() + i, this.pos.getC() - i));
             if (!move.isValid(board)) {
-                if(board.getPieceAt(move.getPos()).isWhite!=this.isWhite){
+                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
                     moves.add(move);
                 }
                 break;
@@ -49,7 +49,7 @@ public class Bishop extends Piece {
         for (int i = 1; this.pos.getR() - i >= 0 && this.pos.getC() + i < 8; i++) {
             Move move = new Move(this, new Position(this.pos.getR() - i, this.pos.getC() + i));
             if (!move.isValid(board)) {
-                if(board.getPieceAt(move.getPos()).isWhite!=this.isWhite){
+                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
                     moves.add(move);
                 }
                 break;
@@ -59,7 +59,7 @@ public class Bishop extends Piece {
         for (int i = 1; this.pos.getR() - i >= 0 && this.pos.getC() - i >= 0; i++) {
             Move move = new Move(this, new Position(this.pos.getR() - i, this.pos.getC() - i));
             if (!move.isValid(board)) {
-                if(board.getPieceAt(move.getPos()).isWhite!=this.isWhite){
+                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
                     moves.add(move);
                 }
                 break;

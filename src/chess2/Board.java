@@ -100,8 +100,12 @@ public class Board implements Serializable {
      * correctly complete a move on the board
      *
      * @param move to perform
+     * @throws java.lang.Exception
      */
-    public void makeMove(Move move) {
+    public void makeMove(Move move) throws Exception {
+        if (!move.isValid(this)) {
+            throw new Exception("Move is Invalid");
+        }
         Position target = move.getPos();
 
         Piece piece = move.getPiece();
@@ -158,30 +162,6 @@ public class Board implements Serializable {
         //check if enemy can attack next turn
         return opponentTargetPos.contains(kingPos);
 
-    }
-
-    /**
-     * this i used to make sure that the checkForCheck() is not infinitely
-     * recursive and was a pain to think about
-     */
-    public void setIsClone() {
-        this.isClone = true;
-    }
-
-    /**
-     * this i used to make sure that the checkForCheck() is not infinitely
-     * recursive and was a pain to think about
-     *
-     * @return true if clone false if not
-     */
-    public boolean getIsClone() {
-        return this.isClone;
-    }
-
-    /**
-     * not yet implemented as of time restraints TODO
-     */
-    public void premotePawn() {
     }
 
     /**
