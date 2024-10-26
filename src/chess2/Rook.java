@@ -23,46 +23,43 @@ public class Rook extends Piece {
     @Override
     public HashSet<Move> getMoves(Board board) {
         HashSet<Move> moves = new HashSet<>();
+        Move lastMove = null;
+        
         // Rook's moves
         // Check all squares in the vertical direction (up and down)
         for (int i = this.pos.getR() + 1; i < 8; i++) {
             Move move = new Move(this, new Position(i, this.pos.getC()));
-            if (!move.isValid(board)) {
-                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                    moves.add(move);
-                }
+            if (!move.isValid(board,lastMove)) {
+                lastMove = null;
                 break;
             }
             moves.add(move);
+            lastMove = new Move(move);
         }
         for (int i = this.pos.getR() - 1; i >= 0; i--) {
             Move move = new Move(this, new Position(i, this.pos.getC()));
-            if (!move.isValid(board)) {
-                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                    moves.add(move);
-                }
+            if (!move.isValid(board,lastMove)) {
+                lastMove = null;
                 break;
             }
             moves.add(move);
+            lastMove = new Move(move);
         }
 
         // Check all squares in the horizontal direction (left and right)
         for (int j = this.pos.getC() + 1; j < 8; j++) {
             Move move = new Move(this, new Position(this.pos.getR(), j));
-            if (!move.isValid(board)) {
-                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                    moves.add(move);
-                }
+            if (!move.isValid(board,lastMove)) {
+                lastMove = null;
                 break;
             }
             moves.add(move);
+            lastMove = new Move(move);
         }
         for (int j = this.pos.getC() - 1; j >= 0; j--) {
             Move move = new Move(this, new Position(this.pos.getR(), j));
-            if (!move.isValid(board)) {
-                if (board.getPieceAt(move.getPos()).isWhite != this.isWhite) {
-                    moves.add(move);
-                }
+            if (!move.isValid(board,lastMove)) {
+                lastMove = null;
                 break;
             }
             moves.add(move);

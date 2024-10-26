@@ -21,23 +21,43 @@ public class Move {
         this.pos = pos;
     }
 
-    public boolean isValid(Board board) {
-        // TODO implement a check for check
+    Move(Move move) {
+        this.piece = move.getPiece();
+        this.pos = move.getPos();
+    }
+
+    public boolean isValid(Board board, Move lastMove) {// TODO implement a check for check
 
         // Check to make sure the target is on the board
         if (pos.getR() < 0 || pos.getR() > 7 || pos.getC() < 0 || pos.getC() > 7) {
             return false;
         }
-
-        Piece targetPiece = board.getPieceAt(pos);
-
+        // Check if last move was a kill
+        if (lastMove != null) {
+            if (board.getPieceAt(lastMove.pos) != null) {
+                return false;
+            }
+        }
+        //TODO pawn only checks
         if (piece instanceof Pawn) {
             return true;
         }
+        
+        //Check if there is a targeted piece
+        Piece targetPiece = board.getPieceAt(pos);
+        
+        //Check if empty space
         if (targetPiece == null) {
-            return true;
+            return true; //TODO Discover check
         }
-        return false;
+
+        //No Team Kills
+        if (board.getPieceAt(pos).isWhite == this.piece.isWhite) {
+            //TODO Castling goes here //TODO Discover check
+            return false;
+        }
+
+        return true;//TODO Discover check
 
     }
 

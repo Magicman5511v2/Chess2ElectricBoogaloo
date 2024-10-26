@@ -26,7 +26,7 @@ public class Knight extends Piece {
             Position newPosition = new Position(newX, newY);
 
             Move move = new Move(this, newPosition);
-            if (move.isValid(board)) {
+            if (move.isValid(board,null)) {
                 moves.add(new Move(this, newPosition));
             }
         }

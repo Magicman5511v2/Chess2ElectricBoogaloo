@@ -103,7 +103,7 @@ public class Board implements Serializable {
      * @throws java.lang.Exception
      */
     public void makeMove(Move move) throws Exception {
-        if (!move.isValid(this)) {
+        if (!move.isValid(this,null)) {
             throw new Exception("Move is Invalid");
         }
         Position target = move.getPos();

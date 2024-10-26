@@ -29,7 +29,7 @@ public class Pawn extends Piece {
             int c = this.pos.getC() + dy[i];
             Position newPosition = new Position(r, c);
             Move move = new Move(this, newPosition);
-            if (move.isValid(board)) {
+            if (move.isValid(board,null)) {
                 moves.add(new Move(this, newPosition));
             }
         }
