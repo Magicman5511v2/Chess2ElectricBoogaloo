@@ -38,14 +38,41 @@ public class Move {
                 return false;
             }
         }
-        //TODO pawn only checks
-        if (piece instanceof Pawn) {
-            return true;
-        }
         
         //Check if there is a targeted piece
         Piece targetPiece = board.getPieceAt(pos);
         
+        
+        //TODO pawn only checks
+        if (piece instanceof Pawn) {
+            Position piecePos = piece.getPos();
+            if (targetPiece == null) { // empty
+                if (piecePos.getC() == pos.getC()) { //forward
+                    if (piecePos.getR() == pos.getR()+1 || piecePos.getR() == pos.getR()-1) {//1 space
+                        return true;
+                    } else if (piece.hasMoved == false) {
+                        return true;
+                    }
+
+                } else {
+                    return false; //cant move diag
+                }
+            } else {
+                if (targetPiece.isWhite == piece.isWhite) {//friendly
+                    return false;
+                }
+                if (piecePos.getC() == pos.getC()) { //forward
+                    return false;
+                } else {
+                    return true;//diag capture
+                }
+            }
+            return false;
+
+        }
+
+        
+
         //Check if empty space
         if (targetPiece == null) {
             return true; //TODO Discover check
