@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -14,15 +12,12 @@ import javax.swing.JButton;
  * @author Christopher Payne
  */
 public class Chess2JFrame extends javax.swing.JFrame {
-
-    static Board board = new Board();
-    private Piece selectedPiece;
-
-    private static final FileHandler fileHandler = new FileHandler();
+    private Game game;
     private JButton[][] buttons;
-
+    
     public Chess2JFrame() {
         initComponents();
+        game = new Game();
         CreateGridButtons();
     }
 
@@ -40,65 +35,33 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
             }
         }
-        this.DrawBoard();
+        this.drawBoard();
     }
 
     private void chessButtonClicked(ActionEvent e) {
         JButton button = (JButton) e.getSource();
         String name = button.getName();
-        int x = name.charAt(0) - 48;
-        int y = name.charAt(1) - 48;
+        int x = name.charAt(0) - '0';
+        int y = name.charAt(1) - '0';
         Position pos = new Position(x, y);
-        System.out.println(pos);
 
-        if (selectedPiece == null && board.getPieceAt(pos) == null) {
-            return;
-        }
-        if (selectedPiece == null && board.getPieceAt(pos) != null) {
-            if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
-                selectedPiece = board.getPieceAt(pos);
-                highlightMoves(selectedPiece.getMoves(board));
-                return;
-            }
-        }
-        if (selectedPiece != null && board.getPieceAt(pos) != null) {
-            if (board.getPieceAt(pos).isWhite == board.getWhiteTurn()) {
-                selectedPiece = board.getPieceAt(pos);
-                highlightMoves(selectedPiece.getMoves(board));
-                return;
-            } else {
-                Move move = new Move(selectedPiece, pos);
-                System.out.println(move);
-                HashSet<Move> moves = selectedPiece.getMoves(board);
-                if (moves.contains(move)) {
-                    try {
-                        board.makeMove(move);
-                        selectedPiece = null;
-                        this.DrawBoard();
-                    } catch (Exception ex) {
-                        Logger.getLogger(Chess2JFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (game.selectPiece(pos) != null) {
+            highlightMoves(game.selectPiece(pos));
+        } else if (game.makeMove(pos)) {
+            drawBoard();
+            if(game.getTurn().equals("Blacks Turn")){
+                if (game.makeCpu()) {
+                    drawBoard();
+                    if(!game.moreMoves()){
+                        gameOver("Black");
                     }
-
+                }else{
+                    gameOver("White");
                 }
-                return;
             }
-        }
-
-        if (selectedPiece != null && board.getPieceAt(pos) == null) {
-            Move move = new Move(selectedPiece, pos);
-            System.out.println(move);
-            HashSet<Move> moves = selectedPiece.getMoves(board);
-            if (moves.contains(move)) {
-                try {
-                    board.makeMove(move);
-                    selectedPiece = null;
-                    this.DrawBoard();
-                } catch (Exception ex) {
-                    Logger.getLogger(Chess2JFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            return;
+        } else {
+            game.deselectPiece();
+            drawBoard();
         }
     }
 
@@ -233,26 +196,24 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        fileHandler.save(board, "test");
-        this.DrawBoard();
+        // save to database
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void NewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewButtonActionPerformed
-        board = new Board();
-        this.DrawBoard();
+        game.newGame();
+        drawBoard();
     }//GEN-LAST:event_NewButtonActionPerformed
 
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
-        board = fileHandler.load("test");
-        this.DrawBoard();
+        // get from database
     }//GEN-LAST:event_LoadButtonActionPerformed
 
-    private void DrawBoard() {
-        TurnTextPane.setText(board.getWhiteTurn() ? "Whites Turn" : "Blacks Turn");
+    private void drawBoard() {
+        TurnTextPane.setText(game.getTurn());
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Position pos = new Position(i, j);
-                Piece piece = this.board.getPieceAt(pos);
+                Piece piece = game.getPieceAt(pos);
                 JButton button = buttons[i][j];
                 if (piece != null) {
                     Image image = new ImageIcon("resources/icons/" + piece.imagePath).getImage();
@@ -270,16 +231,17 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
             }
         }
-        if (selectedPiece != null) {
-            setBackground(selectedPiece.getPos(), Color.GREEN);
-        }
-
+    }
+    
+    private void gameOver(String winner){
+        TurnTextPane.setText("Game Over");
+        MessageTextPane.setText("Game Over" + winner + " Wins");
     }
 
-    private void highlightMoves(HashSet<Move> Moves) {
-        DrawBoard();
-        for (Move move : Moves) {
-            if (board.getPieceAt(move.getPos()) != null) {
+    private void highlightMoves(HashSet<Move> moves) {
+        drawBoard();
+        for (Move move : moves) {
+            if (game.getPieceAt(move.getPos()) != null) {
                 setBackground(move.getPos(), Color.RED);
             } else {
                 setBackground(move.getPos(), Color.YELLOW);
@@ -292,7 +254,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
         JButton button = buttons[pos.getR()][pos.getC()];
         button.setBackground(c);
     }
-
+    
     /**
      * @param args the command line arguments
      */
@@ -332,4 +294,5 @@ public class Chess2JFrame extends javax.swing.JFrame {
     private javax.swing.JButton SaveButton;
     private javax.swing.JTextPane TurnTextPane;
     // End of variables declaration//GEN-END:variables
+
 }

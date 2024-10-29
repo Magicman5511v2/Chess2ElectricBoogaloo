@@ -10,6 +10,7 @@ public class Move {
 
     private final Piece piece;
     private final Position pos;
+    private int value = 0;
 
     /**
      *
@@ -19,11 +20,14 @@ public class Move {
     public Move(Piece piece, Position pos) {
         this.piece = piece;
         this.pos = pos;
+        this.value = 0;
+        
     }
 
     Move(Move move) {
         this.piece = move.getPiece();
         this.pos = move.getPos();
+        this.value = move.value;
     }
 
     public boolean isValid(Board board, Move lastMove) {// TODO implement a check for check
@@ -32,25 +36,37 @@ public class Move {
         if (pos.getR() < 0 || pos.getR() > 7 || pos.getC() < 0 || pos.getC() > 7) {
             return false;
         }
+        try {
+            // Check for own Discover Check
+            if (!board.isInTestMove()) {
+                if (!board.testMove(this)) {
+                    return false;
+                }
+            }
+        } catch (Exception ex) {
+            return false;
+        }
         // Check if last move was a kill
         if (lastMove != null) {
             if (board.getPieceAt(lastMove.pos) != null) {
                 return false;
             }
         }
-        
+
         //Check if there is a targeted piece
         Piece targetPiece = board.getPieceAt(pos);
-        
-        
+        if (targetPiece != null) {
+            this.value = targetPiece.getValue();
+        }
+
         //TODO pawn only checks
         if (piece instanceof Pawn) {
             Position piecePos = piece.getPos();
             if (targetPiece == null) { // empty
                 if (piecePos.getC() == pos.getC()) { //forward
-                    if (piecePos.getR() == pos.getR()+1 || piecePos.getR() == pos.getR()-1) {//1 space
+                    if (piecePos.getR() == pos.getR() + 1 || piecePos.getR() == pos.getR() - 1) {//1 space
                         return true;
-                    } else if (piece.hasMoved == false) {
+                    } else if (piece.hasMoved == false) {//2 space <--Bug Here
                         return true;
                     }
 
@@ -71,8 +87,6 @@ public class Move {
 
         }
 
-        
-
         //Check if empty space
         if (targetPiece == null) {
             return true; //TODO Discover check
@@ -84,7 +98,7 @@ public class Move {
             return false;
         }
 
-        return true;//TODO Discover check
+        return true;
 
     }
 
@@ -143,5 +157,12 @@ public class Move {
     @Override
     public String toString() {
         return piece + " at pos " + piece.pos + " to " + pos;
+    }
+
+    /**
+     * @return the value
+     */
+    public int getValue() {
+        return value;
     }
 }

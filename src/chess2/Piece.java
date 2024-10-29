@@ -72,4 +72,11 @@ public abstract class Piece implements Serializable {
     public boolean isWhite() {
         return isWhite;
     }
+
+    /**
+     * @return the value
+     */
+    public int getValue() {
+        return value;
+    }
 }
