@@ -21,7 +21,7 @@ public class Move {
         this.piece = piece;
         this.pos = pos;
         this.value = 0;
-        
+
     }
 
     Move(Move move) {

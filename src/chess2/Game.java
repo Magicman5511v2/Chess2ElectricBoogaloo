@@ -4,10 +4,9 @@
  */
 package chess2;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -17,6 +16,7 @@ public class Game {
 
     private Board board;
     private Piece selectedPiece;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);//chat GPT recomendation for event 
 
     public Game() {
         board = new Board();
@@ -24,16 +24,16 @@ public class Game {
 
     // Resets the game
     public void newGame() {
-        board = new Board();
+        setBoard(new Board());
         selectedPiece = null;
     }
 
     // Selects a piece and highlights possible moves
     public HashSet<Move> selectPiece(Position pos) {
-        Piece piece = board.getPieceAt(pos);
-        if (piece != null && piece.isWhite == board.getWhiteTurn()) {
+        Piece piece = getBoard().getPieceAt(pos);
+        if (piece != null && piece.isWhite == getBoard().getWhiteTurn()) {
             selectedPiece = piece;
-            return selectedPiece.getMoves(board);
+            return selectedPiece.getMoves(getBoard());
         }
         return null;
     }
@@ -45,10 +45,10 @@ public class Game {
         }
 
         Move move = new Move(selectedPiece, target);
-        HashSet<Move> validMoves = selectedPiece.getMoves(board);
+        HashSet<Move> validMoves = selectedPiece.getMoves(getBoard());
         if (validMoves.contains(move)) {
             try {
-                board.makeMove(move);
+                getBoard().makeMove(move);
                 selectedPiece = null; // Clear selection after the move
                 return true;
             } catch (Exception ex) {
@@ -58,9 +58,9 @@ public class Game {
     }
 
     public boolean makeCpu() {
-        HashSet<Move> moves = board.findAllValidMoves();
-        
-        if (moves.isEmpty()){// game over you win
+        HashSet<Move> moves = getBoard().findAllValidMoves();
+
+        if (moves.isEmpty()) {// game over you win
             return false;
         }
         Move bestMove = moves.iterator().next();
@@ -70,13 +70,13 @@ public class Game {
             }
         }
         try {
-            board.makeMove(bestMove);
+            getBoard().makeMove(bestMove);
         } catch (Exception ex) {
         }
         selectedPiece = null;
-        return true; 
+        return true;
     }
-    
+
     public boolean moreMoves() {
         return !board.findAllValidMoves().isEmpty();
     }
@@ -88,16 +88,33 @@ public class Game {
 
     // Checks whose turn it is
     public String getTurn() {
-        return board.getWhiteTurn() ? "Whites Turn" : "Blacks Turn";
+        return getBoard().getWhiteTurn() ? "Whites Turn" : "Blacks Turn";
     }
 
     // Gets the piece at a specific position for display purposes
     public Piece getPieceAt(Position pos) {
-        return board.getPieceAt(pos);
+        return getBoard().getPieceAt(pos);
     }
 
     // Provides access to the current game board (e.g., for saving/loading)
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     * @param board the board to set
+     */
+    public void setBoard(Board board) {
+        Board oldBoard = this.board;//chat GPT
+        this.board = board;
+        pcs.firePropertyChange("board", oldBoard, this.board);//chat GPT
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {//chat GPT
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {//chat GPT
+        pcs.removePropertyChangeListener(listener);
     }
 }

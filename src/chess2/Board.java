@@ -122,50 +122,49 @@ public class Board implements Serializable {
     }
 
     public boolean testMove(Move move) throws Exception {
- // Set the inTestMove flag to prevent recursion
-    this.inTestMove = true;
+        // Set the inTestMove flag to prevent recursion
+        this.inTestMove = true;
 
-    Position start = move.getPiece().getPos();
-    Position target = move.getPos();
-    Piece movedPiece = move.getPiece();
-    Piece targetPiece = getPieceAt(target); // Get any piece at the target position
+        Position start = move.getPiece().getPos();
+        Position target = move.getPos();
+        Piece movedPiece = move.getPiece();
+        Piece targetPiece = getPieceAt(target); // Get any piece at the target position
 
-    // Prevent friendly captures: if the target position has a piece of the same color, move is invalid
-    if (targetPiece != null && targetPiece.isWhite == movedPiece.isWhite) {
-        this.inTestMove = false; // Reset the inTestMove flag before returning
-        return false;
+        // Prevent friendly captures: if the target position has a piece of the same color, move is invalid
+        if (targetPiece != null && targetPiece.isWhite == movedPiece.isWhite) {
+            this.inTestMove = false; // Reset the inTestMove flag before returning
+            return false;
+        }
+
+        // Save the `hasMoved` states
+        boolean movedPieceHasMoved = movedPiece.hasMoved;
+        boolean targetPieceHasMoved = (targetPiece != null) ? targetPiece.hasMoved : false;
+
+        // Temporarily make the move
+        board.get(start.getR()).set(start.getC(), null); // Remove piece from the start
+        board.get(target.getR()).set(target.getC(), movedPiece); // Place piece at target
+        movedPiece.makeMove(target); // Update piece's internal position to the target
+        movedPiece.hasMoved = true;  // Mark the moved piece as having moved
+
+        // Check if this move results in the king being in check
+        boolean kingInCheck = checkForCheck();
+
+        // Revert the move: restore the original positions and `hasMoved` states
+        board.get(start.getR()).set(start.getC(), movedPiece); // Put piece back at the start
+        board.get(target.getR()).set(target.getC(), targetPiece); // Restore any captured piece
+        movedPiece.makeMove(start); // Reset piece's internal position back to the start
+        movedPiece.hasMoved = movedPieceHasMoved; // Revert `hasMoved` status of moved piece
+
+        if (targetPiece != null) {
+            targetPiece.hasMoved = targetPieceHasMoved; // Revert `hasMoved` of target piece if it was captured
+        }
+
+        // Reset the inTestMove flag after the check
+        this.inTestMove = false;
+
+        // Return whether the move does not put the king in check
+        return !kingInCheck;
     }
-
-    // Save the `hasMoved` states
-    boolean movedPieceHasMoved = movedPiece.hasMoved;
-    boolean targetPieceHasMoved = (targetPiece != null) ? targetPiece.hasMoved : false;
-
-    // Temporarily make the move
-    board.get(start.getR()).set(start.getC(), null); // Remove piece from the start
-    board.get(target.getR()).set(target.getC(), movedPiece); // Place piece at target
-    movedPiece.makeMove(target); // Update piece's internal position to the target
-    movedPiece.hasMoved = true;  // Mark the moved piece as having moved
-
-    // Check if this move results in the king being in check
-    boolean kingInCheck = checkForCheck();
-
-    // Revert the move: restore the original positions and `hasMoved` states
-    board.get(start.getR()).set(start.getC(), movedPiece); // Put piece back at the start
-    board.get(target.getR()).set(target.getC(), targetPiece); // Restore any captured piece
-    movedPiece.makeMove(start); // Reset piece's internal position back to the start
-    movedPiece.hasMoved = movedPieceHasMoved; // Revert `hasMoved` status of moved piece
-
-    if (targetPiece != null) {
-        targetPiece.hasMoved = targetPieceHasMoved; // Revert `hasMoved` of target piece if it was captured
-    }
-
-    // Reset the inTestMove flag after the check
-    this.inTestMove = false;
-
-    // Return whether the move does not put the king in check
-    return !kingInCheck;
-}
-
 
     /**
      * this is used to check to see if team king will be checked
@@ -206,6 +205,7 @@ public class Board implements Serializable {
         }
         return false;
     }
+
     /**
      *
      * @return true if it is whites turn

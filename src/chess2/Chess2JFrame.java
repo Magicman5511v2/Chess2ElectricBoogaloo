@@ -12,13 +12,16 @@ import javax.swing.JButton;
  * @author Christopher Payne
  */
 public class Chess2JFrame extends javax.swing.JFrame {
+
     private Game game;
     private JButton[][] buttons;
-    
+    private GameStorageManager gameStorage;
+
     public Chess2JFrame() {
         initComponents();
         game = new Game();
         CreateGridButtons();
+        gameStorage = new GameStorageManager();
     }
 
     private void CreateGridButtons() {
@@ -49,13 +52,13 @@ public class Chess2JFrame extends javax.swing.JFrame {
             highlightMoves(game.selectPiece(pos));
         } else if (game.makeMove(pos)) {
             drawBoard();
-            if(game.getTurn().equals("Blacks Turn")){
+            if (game.getTurn().equals("Blacks Turn")) {
                 if (game.makeCpu()) {
                     drawBoard();
-                    if(!game.moreMoves()){
+                    if (!game.moreMoves()) {
                         gameOver("Black");
                     }
-                }else{
+                } else {
                     gameOver("White");
                 }
             }
@@ -196,7 +199,9 @@ public class Chess2JFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-        // save to database
+        SaveJFrame saveJFrame = new SaveJFrame(game, gameStorage);
+        saveJFrame.setVisible(true);
+
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void NewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewButtonActionPerformed
@@ -206,9 +211,12 @@ public class Chess2JFrame extends javax.swing.JFrame {
 
     private void LoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoadButtonActionPerformed
         // get from database
+
+        LoadJFrame loadJFrame = new LoadJFrame(game, gameStorage,this);
+        loadJFrame.setVisible(true);
     }//GEN-LAST:event_LoadButtonActionPerformed
 
-    private void drawBoard() {
+    void drawBoard() {
         TurnTextPane.setText(game.getTurn());
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -232,8 +240,8 @@ public class Chess2JFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-    private void gameOver(String winner){
+
+    private void gameOver(String winner) {
         TurnTextPane.setText("Game Over");
         MessageTextPane.setText("Game Over" + winner + " Wins");
     }
@@ -254,7 +262,7 @@ public class Chess2JFrame extends javax.swing.JFrame {
         JButton button = buttons[pos.getR()][pos.getC()];
         button.setBackground(c);
     }
-    
+
     /**
      * @param args the command line arguments
      */
